@@ -1,26 +1,3 @@
-const http = require('http');
-// add the fs library for reading from the file system
-const fs = require('fs');
-// Create a server
-const server = http.createServer(function(request, response) {
-  response.statusCode = 200;
-  response.setHeader('Content-Type', 'text/html');
-  // read the index.html file
-  fs.readFile('index.html', function(error, data) {
-    if (error) {
-      response.statusCode = 500;
-      response.end();
-    } else {
-      // send the contents of index.html
-      response.end(data);
-    }
-  });
-});
-
-server.listen({ port: 3000, host: 'localhost' }, function() {
-  console.log('Server is running!');
-});
-
 
 
 
@@ -43,6 +20,7 @@ const Boss = require('./boss.js');
 // Battle Function
 async function Battle (){
 const Enemy = new Boss();
+
 console.log(Enemy.name + ' has appeared!')
 console.log('Enemy Health: ' + Enemy.health);
 let teamhp = 0;
@@ -60,7 +38,7 @@ while (Enemy.health >= 0 && teamhp >= 0){
   ) {
     Enemy.health = Enemy.health - players[i].attack();
   }
-  
+
   for(let i = 0; i < players.length; i++) {
     players[i].health = players[i].health - Enemy.attack();
   }
@@ -92,6 +70,28 @@ while (Enemy.health >= 0 && teamhp >= 0){
 Game();
 };
 
+const http = require('http');
+// add the fs library for reading from the file system
+const fs = require('fs');
+// Create a server
+const server = http.createServer(function(request, response) {
+  response.statusCode = 200;
+  response.setHeader('Content-Type', 'text/html');
+  // read the index.html file
+  fs.readFile('index.html', function(err, data) {
+    if (err) {
+      throw err;
+    }
+    // write the contents of the index.html file to the response
+    response.end(data);
+  }
+
+);
+});
+
+server.listen({ port: 3000, host: 'localhost' }, function() {
+  console.log('Server is running!');
+});
 // Start the game
 async function Game(){
   await Battle(players);
