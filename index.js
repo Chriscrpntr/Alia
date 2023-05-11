@@ -65,10 +65,7 @@ while (Enemy.health >= 0 && teamhp >= 0){
     console.log('You have been defeated!');
     break;
   }
-
-
 }};
-
 
 // Combat Function
 combat = (players,Enemy) => {
@@ -100,4 +97,9 @@ async function tick() {
 
 
 // Start the game
-Battle(players, Enemy);
+async function Game(){
+  await Battle(players,Enemy);
+  // Run the game again
+  Game();
+}
+Game();
