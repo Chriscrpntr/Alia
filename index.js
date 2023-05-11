@@ -37,38 +37,22 @@ const players = [Chris, Kyle];
 
 // Add Boss class
 const Boss = require('./boss.js');
-const Enemy = new Boss();
+
+
 
 // Battle Function
 async function Battle (){
-console.log('A wild enemy has appeared!');
+const Enemy = new Boss();
+console.log(Enemy.name + ' has appeared!')
+console.log('Enemy Health: ' + Enemy.health);
 let teamhp = 0;
 for (let i = 0; i < players.length; i++) {
   teamhp += players[i].health;
 }
 while (Enemy.health >= 0 && teamhp >= 0){
   // Perform combat round
-  await tick();
-  // Check if enemy is dead
-  if(Enemy.health <= 0){
-  for(i = 0; i < players.length; i++){
-    players[i].experience += 100;
-    console.log(players[i].name + ' has gained 100 experience points!');
-    if(players[i].experience >= 1000){
-      players[i].level += 1;
-      players[i].experience = 0;
-      console.log(players[i].name + ' has leveled up!');
-    }
-  }}
-  // Check if team is dead
-  if(teamhp <= 0){
-    console.log('You have been defeated!');
-    break;
-  }
-}};
-
-// Combat Function
-combat = (players,Enemy) => {
+  await new Promise(resolve => setTimeout(resolve, 2000));
+  console.log(Enemy.name + ' attacks!')
   for (
     let i = 0;
     i < players.length;
@@ -87,19 +71,30 @@ combat = (players,Enemy) => {
   for (let i = 0; i < players.length; i++) {
      teamhp += players[i].health;
   }
-};
-async function tick() {
-  await new Promise(resolve => setTimeout(resolve, 2000));
-  combat(players,Enemy);
+  // Check if enemy is dead
+  if(Enemy.health <= 0){
+  for(i = 0; i < players.length; i++){
+    players[i].experience += 100;
+    console.log(players[i].name + ' has gained 100 experience points!');
+    if(players[i].experience >= 1000){
+      players[i].level += 1;
+      players[i].experience = 0;
+      console.log(players[i].name + ' has leveled up!');
+      
+    }
+  }}
+  // Check if team is dead
+  if(teamhp <= 0){
+    console.log('You have been defeated!');
+    break;
+  }
 }
-
-
-
+Game();
+};
 
 // Start the game
 async function Game(){
-  await Battle(players,Enemy);
-  // Run the game again
-  Game();
+  await Battle(players);
 }
+
 Game();
