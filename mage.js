@@ -1,7 +1,7 @@
 const Player = require('./player.js');
 class Mage extends Player {
-    constructor() {
-        super();
+    constructor(name,race) {
+        super(name,race);
         this.class = 'Mage';
     }
     attack() {
